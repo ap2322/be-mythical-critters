@@ -20,21 +20,26 @@ class Sphinx {
     var riddles = this.riddles;
 
     for(let i = 0; i < riddles.length; i++) {
-      if (riddles[i].answer === answer){
+      var correctAnswer = riddles[i].answer === answer;
+      // var answersCount = this.answerRecord.length - 1;
+
+      if (riddles.length === 1 && correctAnswer){
         this.riddles.splice(i,1)
         this.answerRecord.push('correct')
-        var response = 'That wasn\'t that hard, I bet you don\'t get the next one'
-      } else {
+        var response = this.lastCorrectResponse(answer)
+      }
+      else if (correctAnswer){
+        this.riddles.splice(i,1)
+        this.answerRecord.push('correct')
+        response = 'That wasn\'t that hard, I bet you don\'t get the next one'
+      }
+      else {
         this.answerRecord.push('incorrect')
       }
     }
 
     if (this.anyCorrect() === false){
       this.heroesEaten += 1;
-    }
-
-    if (this.allCorrect()){
-      response = 'New response'
     }
 
     return response
@@ -50,8 +55,15 @@ class Sphinx {
     }
   }
 
-  allCorrect(){
-    return true
+  lastCorrectResponse(answer){
+    var foundIncorrect = this.answerRecord.find(ans => ans === 'incorrect')
+
+    if (foundIncorrect === 'incorrect'){
+      var response = 'Last one is right!'
+    } else {
+      response = `PSSSSSSS THIS HAS NEVER HAPPENED, HOW DID YOU KNOW THE ANSWER WAS \"${answer}\"???`
+    }
+    return response
   }
 
 
