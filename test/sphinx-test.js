@@ -109,6 +109,9 @@ describe('Sphinx', function() {
     var response = sphinx.attemptAnswer('short');
 
     assert.equal(response, 'That wasn\'t that hard, I bet you don\'t get the next one');
+    var response2 = sphinx.attemptAnswer('Halfway, after that it\'s running out.');
+
+    assert.equal(response2, 'That wasn\'t that hard, I bet you don\'t get the next one');
   });
 
   it('should start having eaten no heroes', () => {
@@ -141,7 +144,7 @@ describe('Sphinx', function() {
     assert.equal(sphinx.heroesEaten, 1);
   });
 
-  it('should scream with rage if a hero gets all riddles correct', function() {
+  it.skip('should scream with rage if a hero gets all riddles correct', function() {
     var sphinx = new Sphinx();
     var riddle1 = {
       riddle: 'What word becomes shorter when you add two letters to it?',
@@ -160,7 +163,7 @@ describe('Sphinx', function() {
     assert.equal(rage, 'PSSSSSSS THIS HAS NEVER HAPPENED, HOW DID YOU KNOW THE ANSWER WAS \"Halfway, after that it\'s running out.\"???');
   });
 
-  it('should scream specifically about the last riddle to be answered', function() {
+  it.skip('should scream specifically about the last riddle to be answered', function() {
     var sphinx = new Sphinx();
     var riddle1 = {
       riddle: 'What word becomes shorter when you add two letters to it?',
