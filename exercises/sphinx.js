@@ -18,24 +18,29 @@ class Sphinx {
 
   attemptAnswer(answer){
     var riddles = this.riddles;
+    var tempAnswerRecord = [];
 
     for(let i = 0; i < riddles.length; i++) {
       var correctAnswer = riddles[i].answer === answer;
-      // var answersCount = this.answerRecord.length - 1;
-
       if (riddles.length === 1 && correctAnswer){
         this.riddles.splice(i,1)
-        this.answerRecord.push('correct')
+        tempAnswerRecord.push('correct')
         var response = this.lastCorrectResponse(answer)
       }
       else if (correctAnswer){
         this.riddles.splice(i,1)
-        this.answerRecord.push('correct')
+        tempAnswerRecord.push('correct')
         response = 'That wasn\'t that hard, I bet you don\'t get the next one'
       }
-      else {
-        this.answerRecord.push('incorrect')
+      else if (correctAnswer === false){
+        tempAnswerRecord.push('incorrect')
       }
+    }
+
+    if(this.anyTempCorrect(tempAnswerRecord)) {
+      this.answerRecord.push('correct')
+    } else {
+      this.answerRecord.push('incorrect')
     }
 
     if (this.anyCorrect() === false){
@@ -43,6 +48,15 @@ class Sphinx {
     }
 
     return response
+  }
+
+  anyTempCorrect(answers){
+    var foundCorrect = answers.find(ans => ans === 'correct')
+    if (foundCorrect === 'correct'){
+      return true
+    } else{
+      return false
+    }
   }
 
   anyCorrect(){
@@ -57,7 +71,6 @@ class Sphinx {
 
   lastCorrectResponse(answer){
     var foundIncorrect = this.answerRecord.find(ans => ans === 'incorrect')
-
     if (foundIncorrect === 'incorrect'){
       var response = 'Last one is right!'
     } else {
